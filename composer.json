@@ -93,6 +93,15 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "analyze:standards": [
+        "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --dry-run --verbose --show-progress=dots"
+        ],
+        "fix:standards": [
+            "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --verbose --show-progress=dots"
+        ],
+        "analyze:phpstan": [
+            "vendor/bin/phpstan analyse -c phpstan.dist.neon"
         ]
     },
     "conflict": {
