@@ -1,0 +1,37 @@
+name: Deploy Symfony Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, pdo_mysql
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-progress --prefer-dist
+
+      - name: Build assets (if applicable)
+        run: npm install && npm run build
+
+      - name: Deploy to HostGator
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+          open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
+          mirror --reverse --delete --verbose ./ /path/to/your/directory;
+          "
