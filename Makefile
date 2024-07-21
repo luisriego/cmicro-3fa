@@ -1,7 +1,7 @@
 #!/bin/bash
 
 UID = $(shell id -u)
-DOCKER_BE = cmicro-3fa
+DOCKER_BE = cm3fa
 
 help: ## Show this help message
 	@echo 'usage: make [target]'
@@ -10,7 +10,7 @@ help: ## Show this help message
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
 start: ## Start the containers
-	docker network create cmicro-3fa-network || true
+	docker network create cm3fa-network || true
 	cp --update=none docker-compose.yml.dist docker-compose.yml || true
 	U_ID=${UID} docker-compose up -d
 
@@ -21,7 +21,7 @@ restart: ## Restart the containers
 	$(MAKE) stop && $(MAKE) start
 
 build: ## Rebuilds all the containers
-	docker network create cmicro-3fa-network || true
+	docker network create cm3fa-network || true
 	cp --update=none docker-compose.yml.dist docker-compose.yml || true
 	U_ID=${UID} docker-compose build
 
