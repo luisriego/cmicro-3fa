@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  cmicro-3fa:
-    container_name: cmicro-3fa
+  cm3fa:
+    container_name: cm3fa
     build:
       context: ./docker
       args:
@@ -16,30 +16,30 @@ services:
     environment:
       XDEBUG_CLIENT_HOST: 172.17.0.1
       XDEBUG_CLIENT_PORT: 9003
-      PHP_IDE_CONFIG: serverName=cmicro-3fa-server
+      PHP_IDE_CONFIG: serverName=cm3fa-server
     ports:
       - '1000:80'
     networks:
-      - cmicro-3fa-network
+      - cm3fa-network
     depends_on:
-      - cmicro-3fa-mysql
+      - cm3fa-mysql
 
-  cmicro-3fa-mysql:
-    container_name: cmicro-3fa-mysql
+  cm3fa-mysql:
+    container_name: cm3fa-mysql
     image: mysql:8.2.0
     ports:
       - '3336:3306'
     environment:
-      MYSQL_DATABASE: cmicro-3fa
+      MYSQL_DATABASE: cm3fa
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - cmicro-3fa-mysql-data:/var/lib/mysql
+      - cm3fa-mysql-data:/var/lib/mysql
     networks:
-      - cmicro-3fa-network
+      - cm3fa-network
     command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
 
 networks:
-  cmicro-3fa-network:
+  cm3fa-network:
 
 volumes:
-  cmicro-3fa-mysql-data:
+  cm3fa-mysql-data:

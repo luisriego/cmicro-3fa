@@ -1,0 +1,64 @@
+
+{% extends '@!EasyAdmin/page/login.html.twig' %}
+
+{% block wrapper_wrapper %}
+    <div class="login-wrapper">
+        <header class="main-header">
+            <div id="header-logo">
+                {% block header_logo %}
+                    <div class="logo" style="max-width: 200px; max-height: 100px; overflow: hidden;">
+                        <img src="{{ asset('assets/images/logo_grande.png') }}" alt="Logo da Clinica do Micro">
+                    </div>
+                    <h2 class="text-center">Registrar novo usuário</h2>
+                {% endblock %}
+            </div>
+        </header>
+
+        <section class="content">
+            <form method="post" action="{{ path('app_register') }}">
+{#                <div class="form-group">#}
+{#                    {{ form_label(registrationForm.name, 'Nome de usuário', {'attr': {'class': 'form-control-label required'}}) }}#}
+{#                    <div class="form-widget">#}
+{#                        {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control required autofocus',  'id': 'name', 'name': 'name'}}) }}#}
+{#                        {{ form_errors(registrationForm.name) }}#}
+{#                    </div>#}
+{#                </div>#}
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.email, 'E-mail', {'attr': {'class': 'form-control-label required', 'for': 'email'}}) }}
+                    <div class="form-widget">
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control required autofocus',  'id': 'email', 'name': 'email'}}) }}
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword, 'Senha', {'attr': {'class': 'form-control-label required', 'for': 'password'}}) }}
+                    <div class="form-widget">
+                        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control required autofocus',  'id': 'password', 'name': 'password'}}) }}
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+
+                {#                <div class="form-group">#}
+                {#                    <label class="form-control-label required" for="password_confirmation">Confirmação de Senha</label>#}
+                {#                    <div class="form-widget">#}
+                {#                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>#}
+                {#                    </div>#}
+                {#                </div>#}
+
+{#                <div class="form-group">#}
+{#                    {{ form_label(registrationForm.agreeTerms, 'Termos e condições') }}#}
+{#                    <div class="form-widget">#}
+{#                        {{ form_widget(registrationForm.agreeTerms) }}#}
+{#                        {{ form_errors(registrationForm.agreeTerms) }}#}
+{#                    </div>#}
+{#                </div>#}
+
+                {{ form_widget(registrationForm._token) }}
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Registrar</button>
+            </form>
+        </section>
+    </div>
+{% endblock %}
