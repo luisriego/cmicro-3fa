@@ -1,8 +1,16 @@
-{% extends '@!EasyAdmin/page/login.html.twig' %}
+{% extends 'base.login.html.twig' %}
 
 {% block header_logo %}
     <div class="logo" style="max-width: 200px; max-height: 100px; overflow: hidden;">
         <img src="{{ asset('assets/images/logo_grande.png') }}" alt="Logo da Clínica do Micro">
     </div>
     <h2 class="text-center">Login no sistema</h2>
+{% endblock %}
+
+{% block content_footer %}
+    <div class="text-center mt-3">
+        <a href="{{ path('app_register') }}" class="register-link">
+            <i class="fa fa-user"></i> Registrar novo usuário
+        </a>
+    </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Technician;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -52,8 +53,11 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::section('Users');
-        yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class);
+        yield MenuItem::section('Dados Utilizados');
+
+        yield MenuItem::section('Usuários');
+        yield MenuItem::linkToCrud('Técnicos', 'fa fa-briefcase', Technician::class);
+        yield MenuItem::linkToCrud('Usuários', 'fa fa-users', User::class);
     }
 
     public function configureUserMenu(UserInterface $user): \EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu
@@ -77,8 +81,8 @@ class DashboardController extends AbstractDashboardController
 
             // you can use any type of menu item, except submenus
             ->addMenuItems([
-                MenuItem::linkToRoute('My Profile', 'fa fa-id-card', '...', ['...' => '...']),
-                MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...', ['...' => '...']),
+                MenuItem::linkToRoute('Meu Perfil', 'fa fa-id-card', '...', ['...' => '...']),
+                MenuItem::linkToRoute('Configurações', 'fa fa-user-cog', '...', ['...' => '...']),
                 MenuItem::section(),
 //                MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
             ]);

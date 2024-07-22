@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Trait\IdentifierTrait;
+use App\Trait\IsActiveTrait;
+use App\Trait\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Uid\Uuid;
 use function array_unique;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -17,31 +21,33 @@ use function array_unique;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    use IdentifierTrait;
+    use TimestampableTrait;
+    use IsActiveTrait;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, nullable: false)]
     private ?string $email = null;
 
-    /** @var list<string> The user roles */
+    #[ORM\Column(length: 100, nullable: false)]
+    private ?string $username = null;
+
     #[ORM\Column]
     private array $roles = [];
 
-    /** @var string The hashed password */
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
 
-    public function __construct() {
-    }
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $lastLogin = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
+    public function __construct() {
+        $this->id = Uuid::v4()->toRfc4122();
+        $this->isActive = false;
+        $this->createdOn = new \DateTimeImmutable();
+        $this->markAsUpdated();
     }
 
     public function getEmail(): ?string
@@ -54,6 +60,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function getLastLogin(): ?\DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTime $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
     }
 
     /**
